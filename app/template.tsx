@@ -1,5 +1,6 @@
 import Navbar from '@/components/Navbar/Navbar'
 import Footer from '@/components/common/Footer'
+import { Toaster } from '@/components/ui/sonner'
 import React from 'react'
 
 export default function Template({ children }: { children: React.ReactNode }) {
@@ -8,6 +9,12 @@ export default function Template({ children }: { children: React.ReactNode }) {
             <Navbar />
             {children}
             <Footer />
+            <Toaster
+                richColors
+                position='bottom-right'
+                closeButton
+                expand
+            />
         </>
     )
 }

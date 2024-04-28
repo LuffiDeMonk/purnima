@@ -1,16 +1,19 @@
 'use client'
 
-import React from 'react'
+import React, { useTransition } from 'react'
 import Container from '../common/Container'
 import { Form, FormControl, FormField, FormItem } from '../ui/form'
-import { useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { Input } from '../ui/input'
 import { ContactFormValidation, IContactForm } from '@/validation/ContactFormValidation'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button } from '../ui/button'
 import { Textarea } from '../ui/textarea'
+import { SendEmail } from '@/app/action'
+import { toast } from 'sonner'
+import ContactFormButton from './ContactFormButton'
 
 export default function ContactForm() {
+    const [isPending, startTransition] = useTransition()
     const form = useForm<IContactForm>({
         resolver: zodResolver(ContactFormValidation),
         defaultValues: {
@@ -19,10 +22,25 @@ export default function ContactForm() {
             message: ''
         }
     })
+    const onSubmit: SubmitHandler<IContactForm> = (data) => {
+        startTransition(async () => {
+            const results = await SendEmail(data)
+            if (results?.type === 'error') {
+                toast.error(results.message)
+            }
+            if (results?.type === 'success') {
+                toast.success(results.message)
+                form.reset()
+            }
+        })
+    }
     return (
         <Container classname='max-w-xl px-4'>
             <Form {...form}>
-                <form className='space-y-6'>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className='space-y-6'
+                >
                     <FormField
                         control={form.control}
                         name='name'
@@ -56,12 +74,9 @@ export default function ContactForm() {
                             </FormItem>
                         )}
                     />
-                    <Button
-                        variant='outline'
-                        size='lg'
-                    >
-                        Send
-                    </Button>
+                    <ContactFormButton
+                        isPending={isPending}
+                    />
                 </form>
             </Form>
         </Container>

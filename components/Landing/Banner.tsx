@@ -5,7 +5,7 @@ import { Button } from '../ui/button'
 
 export default function Banner() {
     return (
-        <section className='w-full min-h-screen h-full relative'>
+        <section className='w-full min-h-screen h-full relative bg-[url("/banner.jpg")] object-cover object-left bg-fixed'>
             <div className='z-10 px-12 text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold antialiased max-w-screen-2xl w-full text-nowrap absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
                 <div className="w-full flex flex-col justify-center">
                     <div className="flex justify-center">
@@ -20,14 +20,7 @@ export default function Banner() {
                     </div>
                 </div>
             </div>
-            <Image
-                src='/banner.jpg'
-                width={1200}
-                height={900}
-                alt='banner'
-                className='w-full h-full object-cover absolute'
-            />
-            <div className='absolute inset-0 bg-black bg-opacity-60'></div>
+            <div className='absolute inset-0 bg-black bg-opacity-60' />
         </section >
     )
 }
