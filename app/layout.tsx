@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { roboto } from "@/components/fonts/Fonts";
 import { cn } from "@/lib/utils";
+import ScrollToTop from "@/components/common/ScrollToTop";
 
 
 export const metadata: Metadata = {
@@ -16,7 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(roboto.className, 'bg-black')}>{children}</body>
+      <body className={cn(roboto.className, 'bg-black')}>
+        {children}
+        <ScrollToTop />
+      </body>
     </html>
   );
 }
